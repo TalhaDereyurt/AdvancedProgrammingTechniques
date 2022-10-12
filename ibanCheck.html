@@ -73,38 +73,35 @@ function report() {
 }
 
 function add97(){
-    let sonKisim = ""
-    let yeniKimlik = ""
-    let holdindex = 0
-    let sayi = 0
-    for (let index = kimlik.length; index > 0; index--) {
-        if (parseInt(kimlik[index]) === 9) {
-            for (let index2 = 0; index2 < kimlik.length - holdindex; index2++) {
-                yeniKimlik += kimlik[index]
-            }
-            sayi = parseInt(sonKisim)
-            sayi += 97
-            let yeniSonKisim = sayi.toString
-            for (let index = 0; index < yeniSonKisim.length; index++) {
-                yeniKimlik += yeniSonKisim[index]
-            }
-            break
-        } else {
-            let tut = sonKisim
-            sonKisim = "";
-            sonKisim += kimlik[index]
-            sonKisim += tut;
-            holdindex++
+    let v = kimlik.value.replaceAll(/\s/g, '');
+    let arrKimlik = v.split("");
+    let sonKisim = "";
+    let yeniKimlik = "";
+    let holdindex = 0;
+    let eklenmisHal = 0;
+    for (let index = arrKimlik.length - 1; index>2; index--) {
+        if (Number(arrKimlik[index]) == 9) {
+            holdindex = index - 1;
+            break;
         }
-        
     }
-    kimlik.value = yeniKimlik
-    let t = verifyIBAN(kimlik)? 'IBAN ✓' : 'hatalı'
-    out.innerText += kimlik.value
-    console.log(t)
+    for (let index2 = holdindex; index2 < arrKimlik.length; index2++) {
+        sonKisim += arrKimlik[index2];
+    }
+    eklenmisHal = (parseInt(sonKisim)) + 97;
+    sonKisim = eklenmisHal.toString();
+    let arrSonKisim = sonKisim.split("");
+    for (let index3 = 0; index3 < arrKimlik.length; index3++) {
+        if(index3 >= holdindex) {
+            yeniKimlik += arrSonKisim[(index3 - holdindex)];
+        } else {
+            yeniKimlik += arrKimlik[index3];
+        }
+    }
+    console.log("yeni iban = " + yeniKimlik + "");
 }
-document.querySelector('h2').innerText = document.title
-document.querySelector('pre').innerText = verifyIBAN + '\n'+report + '\n' + add97 + ""
+    title.innerText = document.title
+    sample.innerText = verifyIBAN+'\n'+report
 </script>
 
 </body>
