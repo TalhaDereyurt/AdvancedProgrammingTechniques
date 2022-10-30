@@ -10,14 +10,9 @@ body{
 }
 
 .my-table tbody{
+    background-color: azure;
     font-size: 1.2em;
     font-family: serif;
     text-align: center;
 }
-.my-table tbody tr:nth-child(even) {
-    background-color: cornsilk;
-}
 
-.my-table tbody tr:nth-child(odd) {
-    background-color: silver;
-}
