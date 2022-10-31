@@ -1,19 +1,18 @@
-.styled-table {
+.tableStyle {
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
     min-width: 600px;
 }
-
-.styled-table thead tr {
+.tableStyle thead tr {
     background-color: cadetblue;
     color: #ffffff;
     text-align: left;
 }
-.styled-table th,
-.styled-table td {
+.tableStyle th,
+.tableStyle td {
     padding: 12px 15px;
 }
-.styled-table tbody tr{
+.tableStyle tbody tr{
     background-color: khaki;
 }
