@@ -1,18 +1,18 @@
-
-body{
-    background-color: skyblue;
+.styled-table {
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 600px;
 }
-.my-table thead tr {
-    font-size: 3em;
-    font-family: unset;
-    background-color: chocolate;
-    color: whitesmoke;
+.styled-table thead tr {
+    background-color: cadetblue;
+    color: #ffffff;
+    text-align: left;
 }
-
-.my-table tbody{
-    background-color: azure;
-    font-size: 1.2em;
-    font-family: unset;
-    text-align: center;
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
 }
-
+.styled-table tbody tr{
+    background-color: khaki;
+}
