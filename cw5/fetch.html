@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://blm-fsmvu.github.io/305/images/icon192.png">
+    <h2 id=title title="Put your name here"></h2>
+    <h2 title="Battery level (integer)">
+     Battery level: <span id=lev></span>
+    </h2>
+    <h2 title="online status">
+        Online Status: <span id=plat></span>
+    </h2>    
+    <h2 title="Keyboard">
+     Keyboard: <span id=loc></span> 
+    </h2>
+
+  <style> /* CSS comment */
+    body { max-width: 440px; }
+    #url { width: 190px; }
+    span, #url { color: blue; }
+  </style>
+</head>
+
+<body>   <!-- HTML comment: Modify all items marked xxx -->
+    <h2 id=title title="Put your name here"></h2>
+<p p id="log" title="log.platform">
+  : 
+</p>
+    <p id="log"></p>
+    
+<hr />
+
+
+<hr />
+
+<script>
+"use strict";
+function init() {
+//complete the code below
+    navigator.geolocation
+      .getCurrentPosition(p =>
+        loc.innerText = p.coords.latitude.toFixed(4) 
+        + ',' +p.coords.longitude.toFixed(4)
+      );
+    navigator.getBattery().then(b =>
+        lev.innerText = (b.charging? '\ncharging':'\ndischarging') + '\n ' + (b.level * 100 + '%') + '\n'+ (b.chargingTime)  
+      );
+}
+window.onoffline = (event) => {
+        plat.innerText = "\nnot connected -- offline";
+    };
+    window.ononline = (event) => {
+        plat.innerText = "\nconnected -- online";
+    };
+navigator.getBattery().then(function(battery) {
+    battery.onlevelchange = function(){
+        lev.innerText = "";
+        lev.innerText = (battery.charging? '\ncharging':'\ndischarging');
+        lev.innerText += '\n'+ (battery.level * 100 + '%');
+
+        if(battery.charging)
+            lev.innerText += "\nCharging time: " + (battery.chargingTime / 60) + ":" + (battery.chargingTime % 60) + " remaining";
+        else
+            lev.innerText += "need to on charge for remaining time";
+    };
+    const input = document.querySelector('log.platform');
+    const log = document.getElementById('log');
+
+    window.addEventListener('keydown', keyDown);
+    window.addEventListener('keydown', keyUp);
+
+
+function keyDown(e) {
+  log.textContent += ` ${e.key}`;
+}
+
+});
+
+
+   
+</script>
+
+</body>
+</html>
