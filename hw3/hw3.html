@@ -49,7 +49,12 @@
 
         for (var i = 1; i < images.length; i++) {
           images[i] = new Image();
-          images[i].src = "sprites/" + i.toString() + ".png";
+           fetch("https://talhadereyurt.github.io/AdvancedProgrammingTechniques/hw3/sprites/"+ i.toString() +".png")
+          .then(res => res.blob())
+          .then(imageBlob => {
+            console.log(URL.createObjectURL(imageBlob))
+            images[i].src = URL.createObjectURL(imageBlob)
+          });
         }
         setInterval(fix, 100);
       }
