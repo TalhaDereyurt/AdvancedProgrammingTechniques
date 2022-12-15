@@ -2,9 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <link rel="icon" href="../images/icon192.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+
   <title>Open Weather</title>
   <style>
     body {
@@ -34,6 +43,11 @@
         font-size: 24px;
         margin: 0;
     }
+    #map {
+        height: 500px; width: 100%;
+        margin: 0; border: none;
+        cursor: crosshair;
+    }
     #err { color:red }
     #kod { margin-left: 8px; }
   </style>
@@ -46,7 +60,7 @@
 <div id=canvasMain>
 <canvas id="myCanvas" width="450" height="200"></canvas>
 </div>
-
+<div id = map></div>
 <p><img id=icon>
 
 <div class=dar>
@@ -70,6 +84,9 @@
 </div>
 
 <script>
+      var map; 
+      var latVal;
+      var lngVal;
 "use strict";
 function toHM(t) { // t in seconds -- convert to minutes
     //number of hours since midnight, in local time
@@ -128,6 +145,7 @@ async function askWeather() {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
     ctx.font = "20px Arial";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillText(yy, 100, 30);
     ctx.fillText(hh, 125, 70);
     const abc = "https://openweathermap.org/img/w/";
@@ -200,6 +218,32 @@ mahal.onkeyup = e => {
     askWeather()
   }
   if (e.keyCode === 27) t.blur()
+}
+  // Initialize the map
+  
+map = L.map('map').setView([41.0383, 28.9703], 10);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+}).addTo(map);
+let marker;
+
+map.on('click', function(e) {
+  if (marker) {
+    marker.setLatLng(e.latlng);
+    lat=e.latlng.lat
+    lon = e.latlng.lng
+    init()
+  } else {
+    marker = L.marker(e.latlng).addTo(map);
+    lat=e.latlng.lat
+    lon = e.latlng.lng
+    init()
+  }
+});
+marker.g
+function init(){
+    askWeather()
 }
 </script>
 
