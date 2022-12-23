@@ -3,17 +3,30 @@
 
 <head>
   <title>Labirent Oyunu</title>
+  <style>
+    .btnClass {
+      margin-left: 190px;
+    }
+    .btnClass2 {
+      margin-left: 170px;
+    }
+  </style>
 </head>
 
 <body>
   <canvas id="labirent" width="400" height="360"></canvas>
   <!-- Yön butonları -->
-  <h1>
-    <button id="left">←</button>
-    <button id="up">↑</button>
-    <button id="right">→</button>
-    <button id="down">↓</button>
-  </h1>
+  <p>
+      <button class ="btnClass" id="up">↑</button>
+    </p>
+    <p>
+      <button class ="btnClass2" id="left">←</button>
+      <button id="right">→</button>
+
+    </p>
+    <p>
+      <button class ="btnClass" id="down">↓</button>
+    </p>
   <script>
     // Ekran boyutunu al
     //var screenWidth = window.innerWidth;
