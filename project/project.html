@@ -28,9 +28,6 @@
 
     // Canvas elemanını al
     var canvas = document.getElementById('labirent');
-    // Canvas elemanını mobil cihazlara uygun hale getir
-    //canvas.width = screenWidth;
-    //canvas.height = screenHeight;
     // Canvas elemanının 2D contextini al
     var ctx = canvas.getContext('2d');
     // Düğmeleri dinle
@@ -74,13 +71,13 @@
 var bolum = 1
     // Labirenti oluştur
     if (bolum === 1) {
-    var labirent = 
+    var labirent =
     [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
+    [1, 0, 1, 2, 1, 0, 0, 1, 0, 1],
     [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -97,11 +94,18 @@ var bolum = 1
             // Duvar çiz
             ctx.fillStyle = '#000';
             ctx.fillRect(j * 40, i * 40, 40, 40);
-          } else {
+          } else if (labirent[i][j] === 0) {
             // Yol çiz
             ctx.fillStyle = '#fff';
             ctx.fillRect(j * 40, i * 40, 40, 40);
+          } else if (labirent[i][j] === 2) {
+            // Yol çiz
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(j * 40, i * 40, 40, 40);
+            ctx.fillStyle = '#ffce55';
+            ctx.fillRect(j * 40 + 10, i * 40 + 10, 20, 20);
           }
+
         }
       }
 
@@ -109,6 +113,7 @@ var bolum = 1
       ctx.fillStyle = '#f00';
       ctx.fillRect(karakter.x, karakter.y, karakter.width, karakter.height);
     }
+
     var endGame = 0
     // Karakteri hareket ettir
     function moveKarakter(dx, dy) {
@@ -116,10 +121,11 @@ var bolum = 1
       var newX = karakter.x + dx;
       var newY = karakter.y + dy;
       console.log('New character position:', newX, newY);
-      for (var i = 0; i < labirent.length; i++) {
-        for (var j = 0; j < labirent[i].length; j++) {
+      for (var i = 0; i < labirent.length-1; i++) {
+        for (var j = 0; j < labirent[i].length-1; j++) {
           if (labirent[i][j] === 1) {
-            if ((newX >= i * 40 && newX <= i * 40 + 40) && (newY >= j * 40 && newY <= j * 40 + 40)) {
+            if ((newX >= i * 40 - karakter.width && newX <= i * 40 + karakter.width) && (newY >= j * 40 - karakter.height && newY <= j * 40)) {
+              console.log("x= " + i + "  y= " + j)
               endGame = 1
               break
             }
@@ -130,7 +136,7 @@ var bolum = 1
         }
       }
       // Labirentin sınırlarını kontrol et -- 50 karakter.x ve y -- 70 ise karakter.x + hareket boyutu
-      if (newX <= canvas.width - (60) && newY <= canvas.height - (60) && endGame === 0) {
+      if (newX >= 40 && newX <= canvas.width - (60) && newY >= 40 && newY <= canvas.height - (60) && endGame === 0) {
         // Labirentin içinde ise konumu güncelle
         karakter.x = newX;
         karakter.y = newY;
@@ -179,7 +185,6 @@ var bolum = 1
     let interval = setInterval(function () {
       moveKarakter(dx, dy);
       renderLabirent();
-      console.log(dx + "dy: " + dy)
     }, 100);
     renderLabirent();
   </script>
