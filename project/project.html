@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Labirent Oyunu</title>
+</head>
+
+<body>
+  <canvas id="labirent" width="400" height="360"></canvas>
+  <!-- Yön butonları -->
+  <h1>
+    <button id="left">←</button>
+    <button id="up">↑</button>
+    <button id="right">→</button>
+    <button id="down">↓</button>
+  </h1>
+  <script>
+    // Ekran boyutunu al
+    //var screenWidth = window.innerWidth;
+    //var screenHeight = window.innerHeight;
+
+    // move karakter için başta değişken tanımı
+
+    let stepSize = 3;
+    let dx = stepSize
+    let dy = 0
+    let durum = 0 // starting position
+
+    // Canvas elemanını al
+    var canvas = document.getElementById('labirent');
+    // Canvas elemanını mobil cihazlara uygun hale getir
+    //canvas.width = screenWidth;
+    //canvas.height = screenHeight;
+    // Canvas elemanının 2D contextini al
+    var ctx = canvas.getContext('2d');
+    // Düğmeleri dinle
+    document.getElementById('left').addEventListener('click', function () {
+      // Sol düğmeye basıldı
+      dx = -stepSize
+      dy = 0
+      // Labirenti tekrar çiz
+      renderLabirent();
+    });
+    document.getElementById('up').addEventListener('click', function () {
+      // Yukarı düğmeye basıldı
+      dx = 0
+      dy = -stepSize
+      // Labirenti tekrar çiz
+      renderLabirent();
+    });
+    document.getElementById('right').addEventListener('click', function () {
+      // Sağ düğmeye basıldı
+      dx = stepSize
+      dy = 0
+      // Labirenti tekrar çiz
+      renderLabirent();
+    });
+    document.getElementById('down').addEventListener('click', function () {
+      // Aşağı düğmeye basıldı
+      dx = 0
+      dy = stepSize
+      //moveKarakter(0, stepSize);
+      // Labirenti tekrar çiz
+      renderLabirent();
+    });
+
+    // Karakteri oluştur
+    var karakter = {
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    };
+var bolum = 1
+    // Labirenti oluştur
+    if (bolum === 1) {
+    var labirent = 
+    [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ];}
+
+    function renderLabirent() {
+      // Canvası temizle
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Labirenti çiz
+      for (var i = 0; i < labirent.length; i++) {
+        for (var j = 0; j < labirent[i].length; j++) {
+          if (labirent[i][j] === 1) {
+            // Duvar çiz
+            ctx.fillStyle = '#000';
+            ctx.fillRect(j * 40, i * 40, 40, 40);
+          } else {
+            // Yol çiz
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(j * 40, i * 40, 40, 40);
+          }
+        }
+      }
+
+      // Karakteri çiz
+      ctx.fillStyle = '#f00';
+      ctx.fillRect(karakter.x, karakter.y, karakter.width, karakter.height);
+    }
+    var endGame = 0
+    // Karakteri hareket ettir
+    function moveKarakter(dx, dy) {
+      // Yeni konumu hesapla
+      var newX = karakter.x + dx;
+      var newY = karakter.y + dy;
+      console.log('New character position:', newX, newY);
+      for (var i = 0; i < labirent.length; i++) {
+        for (var j = 0; j < labirent[i].length; j++) {
+          if (labirent[i][j] === 1) {
+            if ((newX >= i * 40 && newX <= i * 40 + 40) && (newY >= j * 40 && newY <= j * 40 + 40)) {
+              endGame = 1
+              break
+            }
+          } 
+        }
+        if (endGame === 1 ){
+          break
+        }
+      }
+      // Labirentin sınırlarını kontrol et -- 50 karakter.x ve y -- 70 ise karakter.x + hareket boyutu
+      if (newX <= canvas.width - (60) && newY <= canvas.height - (60) && endGame === 0) {
+        // Labirentin içinde ise konumu güncelle
+        karakter.x = newX;
+        karakter.y = newY;
+      } else {
+
+        karakter.x = newX;
+        karakter.y = newY;
+        setTimeout(() => {
+          if (confirm('Oyunu kaybettiniz! Tekrar oynamak ister misiniz?')) {
+            clearInterval(interval); // intervalı kapattık cünkü harekete devam etmeye çalışıyor
+            location.reload();
+          }
+        }
+          , 10);
+
+      }
+    }
+
+    // Yön tuşlarını dinle
+    document.addEventListener('keydown', function (event) {
+      if (event.keyCode === 37) {
+        // Sol yön tuşuna basıldı
+        dx = -stepSize
+        dy = 0
+        //moveKarakter(-stepSize, 0);
+      } else if (event.keyCode === 38) {
+        // Yukarı yön tuşuna basıldı
+        dx = 0
+        dy = -stepSize
+        moveKarakter(0, -stepSize);
+      } else if (event.keyCode === 39) {
+        dx = stepSize
+        dy = 0
+        // Sağ yön tuşuna basıldı
+        moveKarakter(stepSize, 0);
+      } else if (event.keyCode === 40) {
+        dx = 0
+        dy = stepSize
+        // Aşağı yön tuşuna basıldı
+        moveKarakter(0, stepSize);
+      }
+
+      // Labirenti tekrar çiz
+      renderLabirent();
+    });
+    let interval = setInterval(function () {
+      moveKarakter(dx, dy);
+      renderLabirent();
+      console.log(dx + "dy: " + dy)
+    }, 100);
+    renderLabirent();
+  </script>
+</body>
+
+</html>
