@@ -39,7 +39,6 @@
     let stepSize = 3;
     let dx = stepSize
     let dy = 0
-    let durum = 0 // starting position
 
     // Canvas elemanını al
     var canvas = document.getElementById('labirent');
@@ -71,7 +70,6 @@
       // Aşağı düğmeye basıldı
       dx = 0
       dy = stepSize
-      //moveKarakter(0, stepSize);
       // Labirenti tekrar çiz
       renderLabirent();
     });
@@ -142,7 +140,7 @@
       var newX = karakter.x + dx;
       var newY = karakter.y + dy;
       console.log('New character position:', newX, newY);
-      for (var i = 0; i < labirent.length - 1; i++) {
+      for (var i = 0; i < labirent.length; i++) {
         for (var j = 0; j < labirent[i].length - 1; j++) {
           if (labirent[j][i] === 1) {
             // i * duvarWidth = duvarın kordinatı 
@@ -152,12 +150,16 @@
               break
             }
           } else if (labirent[j][i] === 2) {
-            finalPointX = i * duvarWidth + 20
-          finalPointY = i * duvarHeight + 20
-          if((newX < finalPointX + 20 && newX + karakter.width > finalPointX) && (newY < finalPointY + 20 && newY + karakter.height > finalPointY)){}
+            finalPointX = i * duvarWidth
+            finalPointY = j * duvarHeight
+            if ((newX < finalPointX + 15 && newX + karakter.width > finalPointX) && (newY < finalPointY + 15 && newY + karakter.height > finalPointY)) {
+              endGame = 3
+              console.log(endGame)
+              break
+            }
           }
         }
-        if (endGame === 1) {
+        if (endGame === 1 || endGame === 3) {
           break
         }
       }
@@ -166,18 +168,96 @@
         // Labirentin içinde ise konumu güncelle
         karakter.x = newX;
         karakter.y = newY;
-      } else {
+      } else if (!(newX >= duvarWidth && newX <= canvas.width - (70) && newY >= duvarHeight && newY <= canvas.height - (70) && endGame === 0) && endGame !== 3) {
 
         karakter.x = newX;
         karakter.y = newY;
+        stop();
         setTimeout(() => {
           if (confirm('Oyunu kaybettiniz! Tekrar oynamak ister misiniz?')) {
-            clearInterval(interval); // intervalı kapattık cünkü harekete devam etmeye çalışıyor
-            location.reload();
+
+            karakter.x = 50
+            karakter.y = 50
+            endGame = 0
+            renderLabirent()
+
+            start();
           }
         }
           , 10);
 
+      } else if (endGame === 3 && bolum === 1) {
+        karakter.x = 50;
+        karakter.y = 50;
+        stop();
+        setTimeout(() => {
+          if (confirm('Tebrikler. 2. bölüme geçmek için hazır mısınız?')) {
+            bolum = 2
+            labirent =
+              [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+              [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
+              [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+              [1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+              [1, 0, 1, 0, 0, 0, 2, 1, 0, 1],
+              [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+              [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+              ];
+            endGame = 0
+            renderLabirent()
+            start();
+          }
+        }
+          , 10);
+      } else if (endGame === 3 && bolum === 2) {
+        karakter.x = 50;
+        karakter.y = 50;
+        stop();
+        setTimeout(() => {
+          if (confirm('Tebrikler. 3. bölüme geçmek için hazır mısınız?')) {
+            bolum = 3
+            labirent =
+              [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+              [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+              [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+              [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+              [1, 0, 1, 0, 2, 1, 0, 0, 0, 1],
+              [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+              [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+              ];
+            endGame = 0
+            renderLabirent()
+            start();
+          }
+        }
+          , 10);
+      } else if (endGame === 3 && bolum === 3) {
+        karakter.x = 50;
+        karakter.y = 50;
+        stop();
+        setTimeout(() => {
+          if (confirm('Oyunu başarıyla bitirdiniz! Baştan başlamak ister misiniz?')) {
+            bolum = 1
+            labirent =
+              [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+              [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+              [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+              [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+              [1, 0, 1, 2, 1, 0, 0, 1, 0, 1],
+              [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
+              [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+              ];
+              endGame = 0
+            renderLabirent()
+            start();
+          }
+        }
+          , 10);
       }
     }
 
@@ -195,7 +275,6 @@
         dx = stepSize
         dy = 0
         // Sağ yön tuşuna basıldı
-        moveKarakter(stepSize, 0);
       } else if (event.keyCode === 40) {
         dx = 0
         dy = stepSize
@@ -205,11 +284,20 @@
       // Labirenti tekrar çiz
       renderLabirent();
     });
-    let interval = setInterval(function () {
-      moveKarakter(dx, dy);
-      renderLabirent();
-    }, 20);
+    let interval
+    function start() {  // use a one-off timer
+      interval = setInterval(function () {
+        moveKarakter(dx, dy);
+        renderLabirent();
+      }, 24);
+    };
+    function stop() {
+      dx = stepSize
+      dy = 0
+      clearInterval(interval);
+    };
     renderLabirent();
+    start()
   </script>
 </body>
 
