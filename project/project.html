@@ -174,7 +174,6 @@
         karakter.y = newY;
         stop();
         setTimeout(() => {
-          if (confirm('Oyunu kaybettiniz! Tekrar oynamak ister misiniz?')) {
 
             karakter.x = 50
             karakter.y = 50
@@ -182,7 +181,7 @@
             renderLabirent()
 
             start();
-          }
+          
         }
           , 10);
 
@@ -191,7 +190,6 @@
         karakter.y = 50;
         stop();
         setTimeout(() => {
-          if (confirm('Tebrikler. 2. bölüme geçmek için hazır mısınız?')) {
             bolum = 2
             labirent =
               [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -207,7 +205,7 @@
             endGame = 0
             renderLabirent()
             start();
-          }
+          
         }
           , 10);
       } else if (endGame === 3 && bolum === 2) {
@@ -215,7 +213,6 @@
         karakter.y = 50;
         stop();
         setTimeout(() => {
-          if (confirm('Tebrikler. 3. bölüme geçmek için hazır mısınız?')) {
             bolum = 3
             labirent =
               [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -231,7 +228,7 @@
             endGame = 0
             renderLabirent()
             start();
-          }
+          
         }
           , 10);
       } else if (endGame === 3 && bolum === 3) {
@@ -239,7 +236,6 @@
         karakter.y = 50;
         stop();
         setTimeout(() => {
-          if (confirm('Oyunu başarıyla bitirdiniz! Baştan başlamak ister misiniz?')) {
             bolum = 1
             labirent =
               [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -255,7 +251,7 @@
               endGame = 0
             renderLabirent()
             start();
-          }
+          
         }
           , 10);
       }
