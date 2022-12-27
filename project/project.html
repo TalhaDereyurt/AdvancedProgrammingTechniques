@@ -80,7 +80,7 @@
     // Karakteri oluştur
     var karakter = {
       x: 50,
-      y: 50,
+      y: 44,
       width: 30,
       height: 30
     };
@@ -172,7 +172,7 @@
         stop();
         setTimeout(() => {
           karakter.x = 50
-          karakter.y = 50
+          karakter.y = 44
           endGame = 0
           renderLabirent()
           start();
@@ -182,7 +182,7 @@
 
       } else if (endGame === 3 && bolum === 1) {
         karakter.x = 50;
-        karakter.y = 50;
+        karakter.y = 44;
         stop();
         setTimeout(() => {
           bolum = 2
@@ -204,7 +204,7 @@
           , 10);
       } else if (endGame === 3 && bolum === 2) {
         karakter.x = 50;
-        karakter.y = 50;
+        karakter.y = 44;
         stop();
         setTimeout(() => {
           bolum = 3
@@ -226,7 +226,7 @@
           , 10);
       } else if (endGame === 3 && bolum === 3) {
         karakter.x = 50;
-        karakter.y = 50;
+        karakter.y = 44;
         stop();
         setTimeout(() => {
           bolum = 1
@@ -277,7 +277,7 @@
       interval = setInterval(function () {
         moveKarakter(dx, dy);
         renderLabirent();
-      }, 40);
+      }, 50);
     };
     function stop() {
       dx = stepSize
